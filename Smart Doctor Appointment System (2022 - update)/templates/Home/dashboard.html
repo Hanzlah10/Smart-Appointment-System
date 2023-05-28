@@ -1,0 +1,191 @@
+
+
+
+
+{% extends "Home/layout.html" %}
+	{% block content %}
+
+<!--<head>-->
+<!--  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css">-->
+<!--</head>-->
+
+
+
+<script>
+
+     function checkAppointment(patient_email,time) {
+
+
+
+      var xhttp = new XMLHttpRequest();
+
+      let patientname = $("#patientname").val();
+      let parientage = $("#parientage").val();
+      let patientcontactnumber = $("#patientcontactnumber").val();
+      let patientgender = $("#patientgender").val();
+
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+
+            let status = JSON.parse(this.responseText)["status"];
+
+            if(status == 0){
+                swal("Already Appointed", "You are Already Appointed", "info");
+
+            }else{
+
+            swal({
+                                  title: "Appointment Registered Successfully",
+                                  text: time,
+                                  icon: "success",
+                                  button: "Ok Thanks!",
+
+                                }).then(name => {
+                                    window.location.href = window.location;
+                            })
+
+            }
+
+
+        }
+      };
+      let doctor_email = localStorage.getItem("doctorEmail");
+
+      if(patientcontactnumber.length > 0 ){
+        xhttp.open("POST", "../api/upi/"+doctor_email+"/"+patient_email+"/"+time+"/"+patientage.value+"/"+patientname+"/"+patientcontactnumber+"/"+patientgender, true);
+      }else{
+        xhttp.open("POST", "../api/upi/"+doctor_email+"/"+patient_email+"/"+time+"/{{ MyProfile['patient_age'] }}/{{ MyProfile['patient_name'] }}/{{ MyProfile['phone'] }}/{{ MyProfile['patient_gender'] }}", true);
+      }
+      xhttp.send();
+    }
+
+
+
+
+
+
+</script>
+
+
+
+                        <div class="page-wrapper">
+            <div class="content">
+                <div class="row">
+                    <div class="col-sm-4 col-3">
+                        <h4 class="page-title">Take Appointments</h4>
+                    </div>
+<!--                    <div class="col-sm-8 col-9 text-right m-b-20">-->
+<!--                        <a href="add-appointment.html" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Appointment</a>-->
+<!--                    </div>-->
+
+<!--                    <a id="demo01" class="" href="#animatedModal" style="display:none"></a>-->
+
+<!--    &lt;!&ndash;DEMO01&ndash;&gt;-->
+<!--    <div id="animatedModal" data="me">-->
+<!--        &lt;!&ndash;THIS IS IMPORTANT! to close the modal, the class name has to match the name given on the ID  class="close-animatedModal" &ndash;&gt;-->
+<!--        <div class="close-animatedModal" style="font-size:30px; color:whitesmoke; margin:10px;">-->
+<!--            CLOSE-->
+<!--        </div>-->
+
+<!--        <div class="modal-content">-->
+<!--                  &lt;!&ndash;Your modal content goes here&ndash;&gt;-->
+<!--        </div>-->
+<!--    </div>-->
+
+
+                </div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="table-responsive">
+							<table class="table table-striped custom-table">
+								<thead>
+									<tr>
+                                        <th>Dr. Profile</th>
+										<th>Dr. Name</th>
+                                        <th>Qualification</th>
+                                         <th>Specialization</th>
+										<th>Contact</th>
+<!--										<th>Available Time</th>-->
+                                        <th>Address</th>
+                                        <th> Status</th>
+
+                                        <th class="text-center">Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+
+                                {% for Doctor in AllDoctors %}
+									<tr>
+                                        <td><img width="100" height="100" src="
+
+
+
+
+                                        {% if Doctor['profile_image'] == None %}
+
+                                         {{ url_for('static', filename='DoctorAssets/img/user.jpg') }}
+
+                                        {% else %}
+                                        {{ Doctor['profile_image'] }}
+
+
+
+                                        {% endif %}
+
+
+
+" class="rounded-circle m-r-5" alt=""></td>
+										<td>{{ Doctor['doctor_name'] }}</td>
+										<td> {{ Doctor['qualification'] }}</td>
+                                        <td>{{ Doctor['specialization'] }}</td>
+										<td>{{ Doctor['doctor_phone_number'] }}</td>
+
+
+										<td>{{ Doctor['address'] }}</td>
+                                        <td>
+
+                                            {% if Doctor['status'] == 0 or Doctor['start_time'] == None %}
+                                            <span class="custom-badge status-red">Not Available</span>
+                                            {% else %}
+                                            <span class="custom-badge status-green" >Available</span> <br> <br>
+                                            <span class="custom-badge status-blue" > {{ Doctor['start_time'] }} - {{ Doctor['end_time'] }}</span>
+
+
+                                            {% endif %}
+
+                                            {% if Doctor['status'] == 0 or Doctor['start_time'] == None %}
+
+                                            {% else %}
+                                            <br>
+                                            <br>
+                                            <span class="custom-badge status-blue" > {{ Doctor['start_time_1'] }} - {{ Doctor['end_time_1'] }}</span>
+
+
+                                            {% endif %}
+
+                                        </td>
+										<td>
+                                            {% if Doctor['status'] == 0 or Doctor['start_time'] == None %}
+                                            <button class="btn btn-danger disabled" style="cursor: not-allowed;" > Take Appointments </button>
+                                            {% else %}
+                                           <button class="btn btn-success" id="bookdoctor" doctor_email="{{ Doctor['doctor_email'] }}"> Take Appointments </button>
+                                            {% endif %}
+
+                                            </td>
+
+
+									</tr>
+
+
+                                {% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+                </div>
+            </div>
+
+                    </div>
+
+
+{% endblock %}

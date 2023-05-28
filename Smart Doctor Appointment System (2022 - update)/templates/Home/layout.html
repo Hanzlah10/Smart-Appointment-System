@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- index22:59-->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static' , filename='DoctorAssets/img/favicon.ico') }}">
+    <title>MediLab+</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static' , filename='DoctorAssets/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static' , filename='DoctorAssets/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static' , filename='DoctorAssets/css/style.css') }}">
+    <!--[if lt IE 9]>
+		<script src="{{ url_for('static' , filename='DoctorAssets/js/html5shiv.min.js') }}"></script>
+		<script src="{{ url_for('static' , filename='DoctorAssets/js/respond.min.js') }}"></script>
+	<![endif]-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <div class="header">
+			<div class="header-left">
+				<a href="index-2.html" class="logo">
+					<img src="{{ url_for('static', filename='DoctorAssets/img/logo.png') }}" width="35" height="35" alt=""> <span>MediLab+</span>
+				</a>
+			</div>
+			<a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu float-right">
+
+                <li class="nav-item dropdown has-arrow">
+                    <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                        <span class="user-img">
+							<img class="rounded-circle" src="{{ url_for('static', filename='DoctorAssets/img/user.jpg') }}" width="24" alt="Admin">
+							<span class="status online"></span>
+						</span>
+						<span>{{ email }}</span>
+                    </a>
+					<div class="dropdown-menu">
+
+					 <a class="dropdown-item" href="profile">My Profile / Edit Profile</a>
+<!--						<a class="dropdown-item" href="settings">Edit Schedule</a>-->
+						<a class="dropdown-item" href="logout">Logout</a>
+					</div>
+                </li>
+            </ul>
+            <div class="dropdown mobile-user-menu float-right">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                   <a class="dropdown-item" href="profile">My Profile / Edit Profile</a>
+                    <a class="dropdown-item" href="logout">Logout</a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">Main</li>
+                        <li class="active">
+                            <a href="/patient/"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                        </li>
+
+<!--                        <li>-->
+<!--                            <a href="patients"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="appointments"><i class="fa fa-calendar"></i> <span>Appointments</span></a>-->
+<!--                        </li>-->
+                        <li>
+                            <a href="appointment"><i class="fa fa-calendar-check-o"></i> <span>My Appointment</span></a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="profile"><i class="fa fa-user"></i>My Profile / Edit Profile</a>
+                        </li>
+
+                         <li>
+                            <a class="dropdown-item" href="logout"><i class="fa fa-sign-out"></i>Logout</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Button trigger modal -->
+<button type="button" id="opentimestap" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  open timestap
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Select Time</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="input-group mb-3">
+              <select class="custom-select" id="doctortimescheduleoption">
+
+              </select>
+              <div class="input-group-append">
+                <label class="input-group-text" for="doctortimescheduleoption">Options</label>
+              </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="takeAppointment" data-dismiss="modal">Take Appointment</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#someonemodel" id="someonemodelopen">
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="someonemodel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="someonemodel">Enter Patient Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon3">Patient Name</span>
+              </div>
+              <input type="text" class="form-control" name="name" id="patientname" aria-describedby="basic-addon3">
+            </div>
+          <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon3">Patient Age</span>
+              </div>
+              <input type="number" class="form-control" name="name" id="patientage" aria-describedby="basic-addon3">
+            </div>
+
+          <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon3">Patient Contact Number</span>
+              </div>
+              <input type="number" class="form-control" name="name" id="patientcontactnumber" aria-describedby="basic-addon3">
+            </div>
+
+          <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Gender</label>
+              </div>
+              <select class="custom-select" id="patientgender">
+                <option selected>Male</option>
+                <option >Female</option>
+                <option >Other</option>
+              </select>
+        </div>
+
+          <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Time Slot</label>
+              </div>
+              <select class="custom-select" id="doctortimescheduleoptionforsomeone">
+              </select>
+        </div>
+
+
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="takeappointmentforsomeone">Take Appointment</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+            {% block content %}{% endblock %}
+
+
+
+
+
+    <script src="{{ url_for('static' , filename='DoctorAssets/js/jquery-3.2.1.min.js') }}"></script>
+<!--    <script src="{{ url_for('static' , filename='animationsJs/animatedModal.min.js') }}"></script>-->
+	<script src="{{ url_for('static' , filename='DoctorAssets/js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static' , filename='DoctorAssets/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static' , filename='DoctorAssets/js/jquery.slimscroll.js') }}"></script>
+    <script src="{{ url_for('static' , filename='DoctorAssets/js/Chart.bundle.js') }}"></script>
+    <script src="{{ url_for('static' , filename='DoctorAssets/js/chart.js') }}"></script>
+    <script src="{{ url_for('static' , filename='DoctorAssets/js/app.js') }}"></script>
+
+
+    <script>
+
+
+        function loadDoctorSchedule(email) {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          schedule_data = JSON.parse(this.responseText)["schedule"];
+
+            $("#opentimestap").click();
+            $("#doctortimescheduleoption").find('option').remove().end()
+
+          for(i=0; i<schedule_data.length; i++){
+            let nextvalue = schedule_data[i+1];
+            if ( nextvalue != undefined ){
+
+            let start_time = schedule_data[i];
+            let end_time = schedule_data[i+1];
+
+            if(end_time.includes("full") == true){
+
+            $("#doctortimescheduleoption").append("<option disabled>"+start_time+" - "+ end_time +" </option>");
+
+
+            }else{
+                if(start_time != end_time){
+                    if(end_time != schedule_data[i+2]){
+                        if(start_time != "break"){
+                        $("#doctortimescheduleoption").append("<option>"+start_time.replace("full","")+" - "+ end_time.replace("full","") +" </option>");
+                        }
+
+                    }
+
+                }else{
+
+                }
+            }
+
+
+
+
+            }else{
+            break;
+            }
+
+            }
+
+
+
+        }
+      };
+      xhttp.open("POST", "/api/doctor-schedule/"+email, true);
+      xhttp.send();
+    }
+
+
+
+
+   function loadDoctorScheduleForSomeone(email) {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          schedule_data = JSON.parse(this.responseText)["schedule"];
+
+            $("#doctortimescheduleoptionforsomeone").find('option').remove().end()
+
+          for(i=0; i<schedule_data.length; i++){
+            let nextvalue = schedule_data[i+1];
+            if ( nextvalue != undefined ){
+
+            let start_time = schedule_data[i];
+            let end_time = schedule_data[i+1];
+
+             if(end_time.includes("full") == true){
+
+            $("#doctortimescheduleoptionforsomeone").append("<option disabled>"+start_time+" - "+ end_time +" </option>");
+
+
+            }else{
+                if(start_time != end_time){
+                    if(end_time != schedule_data[i+2]){
+                        if(start_time != "break"){
+                        $("#doctortimescheduleoptionforsomeone").append("<option>"+start_time.replace("full","")+" - "+ end_time.replace("full","") +" </option>");
+                        }
+
+                    }
+
+                }else{
+
+                }
+            }
+
+
+
+            }else{
+            break;
+            }
+
+            }
+
+
+
+        }
+      };
+      xhttp.open("POST", "/api/doctor-schedule/"+email, true);
+      xhttp.send();
+    }
+
+
+
+   $(document).ready(function(){
+
+    $(document).on("click","#bookdoctor",function(){
+
+    let doctorEmail = $(this).attr("doctor_email");
+    localStorage.setItem("doctorEmail", doctorEmail);
+
+
+        bootbox.dialog({
+    title: 'IDP Asks',
+    message: '<h3>Appointment For?</h3>',
+    size: 'medium',
+    onEscape: true,
+    backdrop: true,
+    buttons: {
+        // me: {
+        //     label: 'Me!',
+        //     className: 'btn-info',
+        //     callback: function(){
+
+        //   loadDoctorSchedule(doctorEmail);
+
+
+        //     }
+        // },
+        someone: {
+            label: 'Me!',
+            className: 'btn-success',
+            callback: function(){
+
+            loadDoctorScheduleForSomeone(doctorEmail);
+            $("#someonemodelopen").click();
+
+
+
+
+
+            }
+        }
+
+    }
+})
+
+
+    })
+
+   });
+
+</script>
+
+
+    <script>
+
+
+
+
+        $(document).on("click","#takeappointmentforsomeone",function(){
+
+          let patientSelectSlot = $("#doctortimescheduleoptionforsomeone").val();
+
+          if(patientSelectSlot != null){
+            let DoctorEmail = localStorage.getItem("doctorEmail");
+
+            let patientEmail = "{{ email }}";
+
+            checkAppointment(patientEmail,patientSelectSlot);
+
+          }else{
+
+          swal("Select Slot","Please Select Proper Slot","info");
+
+          }
+
+
+
+        })
+
+
+
+
+        $(document).on("click","#takeAppointment",function(){
+
+          let patientSelectSlot = $("#doctortimescheduleoption").val();
+
+
+           if(patientSelectSlot != null){
+            let DoctorEmail = localStorage.getItem("doctorEmail");
+
+            let patientEmail = "{{ email }}";
+
+            checkAppointment(patientEmail,patientSelectSlot);
+
+          }else{
+
+          swal("Select Slot","Please Select Proper Slot","info");
+
+          }
+
+
+
+        })
+
+
+    </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+
+
+ <script>
+
+            if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
+}
+        </script>

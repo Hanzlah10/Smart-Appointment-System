@@ -1,0 +1,59 @@
+
+{% extends "Home/layout.html" %}
+	{% block content %}
+
+
+  <div class="page-wrapper">
+            <div class="content">
+
+<div class="card-box">
+                            <div class="card-block">
+                                <h5 class="text-bold card-title">Appointments</h5>
+								<div class="table-responsive">
+									<table class="table table-striped mb-0">
+										<thead>
+											<tr>
+												<th>Token</th>
+												<th>Dr. Profile</th>
+												<th>Dr. Name</th>
+												<th>Contact</th>
+                                                <th>Address</th>
+                                                <th>Specialization</th>
+                                                <th>Appointment Schedule</th>
+											</tr>
+										</thead>
+										<tbody>
+
+										{% for appointment in MyAppointment %}
+
+										<tr>
+											<td>{{ appointment['pid'] }}</td>
+											<td> <img src="{{ appointment['profile_image'] }}" height="100" width="100" /> </td>
+											<td> {{ appointment['doctor_name'] }} </td>
+											<td> {{ appointment['doctor_phone_number'] }} </td>
+											<td> {{ appointment['address'] }} </td>
+											<td> {{ appointment['specialization'] }} </td>
+											<td> {{ appointment['appointment_time'] }} : {{ appointment['appointed_datetime'] }}  </td>
+										</tr>
+
+										{% endfor %}
+
+
+
+
+										</tbody>
+									</table>
+								</div>
+                            </div>
+                        </div>
+
+
+
+            </div>
+
+</div>
+</div>
+
+
+
+{% endblock %}

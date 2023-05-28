@@ -1,0 +1,242 @@
+{% extends "Home/layout.html" %}
+	{% block content %}
+
+
+
+<div class="page-wrapper" style="min-height: 625px;">
+            <div class="content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4 class="page-title">Edit Profile</h4>
+                    </div>
+                </div>
+                <form method="POST" enctype="multipart/form-data" action="profile" >
+                    <div class="card-box">
+                        <h3 class="card-title">Basic Informations</h3>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="profile-img-wrap">
+                                    <img class="inline-block" src="{% if patient_data.patient_profile_image == None  %}
+                                                                    {{ url_for('static' , filename='DoctorAssets/img/user.jpg') }}
+
+                                                                    {% else %}
+                                                                    {{ patient_data.patient_profile_image }}
+
+                                                                    {% endif %} " alt="user" name="pimage" >
+                                    <div class="fileupload btn">
+
+
+
+
+                                        <span class="btn-text">edit</span>
+                                        <input class="upload" type="file" name="pimage" accept="image/x-png,image/gif,image/jpeg">
+                                    </div>
+                                </div>
+                                <div class="profile-basic">
+                                    <div class="row">
+
+
+                                        <div class="col-md-6">
+                                            <div class="form-group form-focus focused">
+                                                <label class="focus-label">Email:</label>
+                                                <input type="text" class="form-control floating"  value=" {{ patient_data.email }} " disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group form-focus focused">
+                                                <label class="focus-label">Full Name</label>
+                                                <input type="text" class="form-control floating" name="name" value=" {{ patient_data.patient_name }} ">
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+
+                                         <div class="col-md-6">
+                                            <div class="form-group form-focus focused">
+                                                <label class="focus-label">Phone Number</label>
+                                                <input class="form-control floating" name="phone" type="text" value=" {{ patient_data.phone  }} ">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-6">
+                                            <div class="form-group form-focus focused">
+                                                <label class="focus-label">Age</label>
+                                                <input class="form-control floating" name="age" type="text" value=" {{ patient_data.patient_age  }} ">
+                                            </div>
+                                        </div>
+
+                                         <div class="input-group mb-3">
+                                          <div class="input-group-prepend">
+                                            <label class="input-group-text" for="inputGroupSelect01">Gender</label>
+                                          </div>
+                                          <select class="custom-select" id="inputGroupSelect01" name="gender">
+                                            <option selected>{{ patient_data.patient_gender  }}</option>
+
+                                              {% if patient_data.patient_gender == 'Male' %}
+                                              <option >Female</option>
+                                              <option>other</option>
+
+                                              {% elif patient_data.patient_gender == 'Female'   %}
+
+                                              <option>Male</option>
+                                              <option>other</option>
+
+                                              {% else %}
+
+                                              <option>Male</option>
+                                              <option>Female</option>
+
+                                              {% endif %}
+
+
+                                          </select>
+                                    </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<!--                    <div class="card-box">-->
+<!--                        <h3 class="card-title">Location</h3>-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-12">-->
+<!--                                <div class="form-group form-focus focused">-->
+<!--                                    <label class="focus-label">Address</label>-->
+<!--                                    <input type="text" class="form-control floating" name="address"  value="{{ patient_data.address }} ">-->
+<!--                                </div>-->
+<!--                            </div>-->
+
+
+
+
+
+
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="card-box">-->
+<!--                        <h3 class="card-title">Education Informations</h3>-->
+<!--                        <div class="row">-->
+
+<!--                            <div class="col-md-6">-->
+<!--                                <div class="form-group form-focus focused">-->
+<!--                                    <label class="focus-label">Subject</label>-->
+<!--                                    <input type="text" class="form-control floating" value="Computer Science">-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-6">-->
+<!--                                <div class="form-group form-focus focused">-->
+<!--                                    <label class="focus-label">Starting Date</label>-->
+<!--									<div class="cal-icon">-->
+<!--										<input type="text" class="form-control floating datetimepicker" value="01/06/2002">-->
+<!--									</div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-6">-->
+<!--                                <div class="form-group form-focus focused">-->
+<!--                                    <label class="focus-label">Complete Date</label>-->
+<!--									<div class="cal-icon">-->
+<!--										<input type="text" class="form-control floating datetimepicker" value="31/05/2006">-->
+<!--									</div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-6">-->
+<!--                                <div class="form-group form-focus focused">-->
+<!--                                    <label class="focus-label">Degree</label>-->
+<!--                                    <input type="text" class="form-control floating" value="BE Computer Science">-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-6">-->
+<!--                                <div class="form-group form-focus focused">-->
+<!--                                    <label class="focus-label">Grade</label>-->
+<!--                                    <input type="text" class="form-control floating" value="Grade A">-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="add-more">-->
+<!--                            <a href="#" class="btn btn-primary"><i class="fa fa-plus"></i> Add More Institute</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="card-box">-->
+<!--                        <h3 class="card-title">Experience Informations</h3>-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-6">-->
+<!--                                <div class="form-group form-focus focused">-->
+<!--                                    <label class="focus-label">Company Name</label>-->
+<!--                                    <input type="text" class="form-control floating" value="Digital Devlopment Inc">-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-6">-->
+<!--                                <div class="form-group form-focus focused">-->
+<!--                                    <label class="focus-label">Location</label>-->
+<!--                                    <input type="text" class="form-control floating" value="United States">-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-6">-->
+<!--                                <div class="form-group form-focus focused">-->
+<!--                                    <label class="focus-label">Job Position</label>-->
+<!--                                    <input type="text" class="form-control floating" value="Web Developer">-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-6">-->
+<!--                                <div class="form-group form-focus focused">-->
+<!--                                    <label class="focus-label">Period From</label>-->
+<!--									<div class="cal-icon">-->
+<!--										<input type="text" class="form-control floating datetimepicker" value="01/07/2007">-->
+<!--									</div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-6">-->
+<!--                                <div class="form-group form-focus focused">-->
+<!--                                    <label class="focus-label">Period To</label>-->
+<!--									<div class="cal-icon">-->
+<!--										<input type="text" class="form-control floating datetimepicker" value="08/06/2018">-->
+<!--									</div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="add-more">-->
+<!--                            <a href="#" class="btn btn-primary"><i class="fa fa-plus"></i> Add More Experience</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="text-center m-t-20">
+                        <button class="btn btn-primary submit-btn" type="submit">Save</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+
+{% if success %}
+
+    <script>
+
+    $(document).ready(function(){
+
+
+    swal("Write something here:", {
+      title: "Profile Updated Successfully",
+      text: " ",
+      icon: "success",
+      button: "Oh Thanks!",
+    });
+
+    });
+
+    </script>
+
+
+
+{% endif %}
+
+
+
+
+{% endblock %}
